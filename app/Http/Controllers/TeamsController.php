@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\ViewComposers\TeamListComposer;
 use App\Team;
 use App\Match;
 
@@ -11,8 +12,9 @@ class TeamsController extends Controller
     // Lists all teams available in the system
     public function index()
     {
-        $teams = Team::all();
-        return view('teams.index', ['teams' => $teams]);
+        //$teams = Team::all();
+
+        return view('teams.index');
     }
 
     // Displays the players and match-ups of a team as selected by user

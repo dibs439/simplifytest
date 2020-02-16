@@ -51,6 +51,9 @@
                                     <a class="dropdown-item" href="{{ url('/teams') }}">
                                         {{ __('Teams') }}
                                     </a>
+                                    <a class="dropdown-item" href="{{ url('/matches') }}">
+                                        {{ __('Matches') }}
+                                    </a>
 
                                 </div>
                             </li>

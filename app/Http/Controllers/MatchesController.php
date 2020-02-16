@@ -11,25 +11,32 @@ class MatchesController extends Controller
     // Lists all teams available in the system
     public function index()
     {
-
+        $matches = Match::with('team1', 'team2')->get();
+        return view('matches.index', ['matches' => $matches]);
     }
 
     // Displays the players and match-ups of a team as selected by user
     public function show($id)
     {
         if(!isset($id)) {
-            return redirect()->intended('/teams')->with('error', 'No team found with this id');
+            return redirect()->intended('/matches')->with('error', 'No match found with this id');
         }
-        $match = Match::with('team1', 'team2', 'players')->where('id', $id)->first();
-        dd($match);
+        //$match = Match::with('team1.players', 'team2.players')->where('id', $id)->first();
 
-        if(!isset($match)) {
-            return redirect()->intended('/teams')->with('error', 'No match found with this id');
-        }
+        //get the data you need
+        $data = ['match_id' = $id];
 
-        $matches = Match::with('team1', 'team2')->where('team_id_1', $id)->orWhere('team_id_2', $id)->get();
+        //pass the data to your wapper class
+        $composerWrapper = new TeamListComposer( $data );
 
-        //dd($matches);
-        return view('teams.show', ['matches' => $matches, 'team' => $team]);
+        //this will compose the view
+        $composerWrapper->compose();
+
+
+        // if(!isset($match)) {
+        //     return redirect()->intended('/matches')->with('error', 'No match found with this id');
+        // }
+
+        return view('matches.show');
     }
 }
